@@ -15,31 +15,32 @@ logger = logging.getLogger(__name__)
 
 
 def parse_raw_sequence(raw_sequence: str):
-    raw_sequence_len = len(raw_sequence)
-    peptide = []
-    index = 0
-    while index < raw_sequence_len:
-        if raw_sequence[index] == "(":
-            if peptide[-1] == "C" and raw_sequence[index:index + 8] == "(+57.02)":
-                peptide[-1] = "C(Carbamidomethylation)"
-                index += 8
-            elif peptide[-1] == 'M' and raw_sequence[index:index + 8] == "(+15.99)":
-                peptide[-1] = 'M(Oxidation)'
-                index += 8
-            elif peptide[-1] == 'N' and raw_sequence[index:index + 6] == "(+.98)":
-                peptide[-1] = 'N(Deamidation)'
-                index += 6
-            elif peptide[-1] == 'Q' and raw_sequence[index:index + 6] == "(+.98)":
-                peptide[-1] = 'Q(Deamidation)'
-                index += 6
-            else:  # unknown modification
-                logger.warning(f"unknown modification in seq {raw_sequence}")
-                return False, peptide
-        else:
-            peptide.append(raw_sequence[index])
-            index += 1
+    return True, re.findall(r'[A-Z](?:\(.+?\))?', raw_sequence)
+    # raw_sequence_len = len(raw_sequence)
+    # peptide = []
+    # index = 0
+    # while index < raw_sequence_len:
+    #     if raw_sequence[index] == "(":
+    #         if peptide[-1] == "C" and raw_sequence[index:index + 8] == "(+57.02)":
+    #             peptide[-1] = "C(Carbamidomethylation)"
+    #             index += 8
+    #         elif peptide[-1] == 'M' and raw_sequence[index:index + 8] == "(+15.99)":
+    #             peptide[-1] = 'M(Oxidation)'
+    #             index += 8
+    #         elif peptide[-1] == 'N' and raw_sequence[index:index + 6] == "(+.98)":
+    #             peptide[-1] = 'N(Deamidation)'
+    #             index += 6
+    #         elif peptide[-1] == 'Q' and raw_sequence[index:index + 6] == "(+.98)":
+    #             peptide[-1] = 'Q(Deamidation)'
+    #             index += 6
+    #         else:  # unknown modification
+    #             logger.warning(f"unknown modification in seq {raw_sequence}")
+    #             return False, peptide
+    #     else:
+    #         peptide.append(raw_sequence[index])
+    #         index += 1
 
-    return True, peptide
+    # return True, peptide
 
 
 def to_tensor(data_dict: dict) -> dict:

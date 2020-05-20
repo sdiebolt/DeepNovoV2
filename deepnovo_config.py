@@ -48,13 +48,13 @@ assert PAD_ID == 0
 vocab_reverse = ['A',
                  'R',
                  'N',
-                 'N(Deamidation)',
+                 'N(Deamidated)',
                  'D',
-                 #~ 'C',
-                 'C(Carbamidomethylation)',
+                 'C',
+                 'C(Carboxymethyl)',
                  'E',
                  'Q',
-                 'Q(Deamidation)',
+                 'Q(Deamidated)',
                  'G',
                  'H',
                  'I',
@@ -96,31 +96,32 @@ mass_CO = 27.9949
 mass_AA = {'_PAD': 0.0,
            '_GO': mass_N_terminus-mass_H,
            '_EOS': mass_C_terminus+mass_H,
-           'A': 71.03711, # 0
-           'R': 156.10111, # 1
-           'N': 114.04293, # 2
-           'N(Deamidation)': 115.02695,
-           'D': 115.02694, # 3
-           #~ 'C(Carbamidomethylation)': 103.00919, # 4
-           'C(Carbamidomethylation)': 160.03065, # C(+57.02)
-           #~ 'C(Carbamidomethylation)': 161.01919, # C(+58.01) # orbi
-           'E': 129.04259, # 5
-           'Q': 128.05858, # 6
-           'Q(Deamidation)': 129.0426,
-           'G': 57.02146, # 7
-           'H': 137.05891, # 8
-           'I': 113.08406, # 9
-           'L': 113.08406, # 10
-           'K': 128.09496, # 11
-           'M': 131.04049, # 12
+           'A': 71.03711,
+           'R': 156.10111,
+           'N': 114.04293,
+           'N(Deamidated)': 115.02695,
+           'D': 115.02694,
+           'C': 103.00919,
+           #'C(Carbamidomethylation)': 160.03065, # C(+57.02)
+           #'C(Carbamidomethylation)': 161.01919, # C(+58.01) # orbi
+           'C(Carboxymethyl)': 161.01919,
+           'E': 129.04259,
+           'Q': 128.05858,
+           'Q(Deamidated)': 129.0426,
+           'G': 57.02146,
+           'H': 137.05891,
+           'I': 113.08406,
+           'L': 113.08406,
+           'K': 128.09496,
+           'M': 131.04049,
            'M(Oxidation)': 147.0354,
-           'F': 147.06841, # 13
-           'P': 97.05276, # 14
-           'S': 87.03203, # 15
-           'T': 101.04768, # 16
-           'W': 186.07931, # 17
-           'Y': 163.06333, # 18
-           'V': 99.06841, # 19
+           'F': 147.06841,
+           'P': 97.05276, 
+           'S': 87.03203,
+           'T': 101.04768,
+           'W': 186.07931,
+           'Y': 163.06333,
+           'V': 99.06841,
           }
 
 mass_ID = [mass_AA[vocab_reverse[x]] for x in range(vocab_size)]
@@ -192,7 +193,7 @@ print("num_units ", num_units)
 
 dropout_rate = 0.25
 
-batch_size = 32
+batch_size = 16
 num_workers = 6
 print("batch_size ", batch_size)
 
@@ -201,7 +202,7 @@ num_epoch = 20
 init_lr = 1e-3
 
 train_stack_size = 500 # 3000 # 5000
-valid_stack_size = 1500#1000 # 3000 # 5000
+valid_stack_size = 1500 # 1000 # 3000 # 5000
 test_stack_size = 5000
 decode_stack_size = 1000 # 3000
 print("train_stack_size ", train_stack_size)
@@ -224,15 +225,15 @@ print("max_gradient_norm ", max_gradient_norm)
 knapsack_file = "knapsack.npy"
 topk_output = 1
 # training/testing/decoding files
-input_spectrum_file_train = "ABRF_DDA/spectrums.mgf"
-input_feature_file_train = "ABRF_DDA/features.csv.identified.train.nodup"
-input_spectrum_file_valid = "ABRF_DDA/spectrums.mgf"
-input_feature_file_valid = "ABRF_DDA/features.csv.identified.valid.nodup"
-input_spectrum_file_test = "ABRF_DDA/spectrums.mgf"
-input_feature_file_test = "ABRF_DDA/features.csv.identified.test.nodup"
+input_spectrum_file_train = "../smbp_data/spectrum_smbp.mgf"
+input_feature_file_train = "../smbp_data/features_smbp.csv.train"
+input_spectrum_file_valid = "../smbp_data/spectrum_smbp.mgf"
+input_feature_file_valid = "../smbp_data/features_smbp.csv.valid"
+input_spectrum_file_test = "../smbp_data/spectrums_smbp.mgf"
+input_feature_file_test = "../smbp_data/features_smbp.csv.test"
 # denovo files
-denovo_input_spectrum_file = "ABRF_DDA/spectrums.mgf"
-denovo_input_feature_file = "ABRF_DDA/features.csv.identified.test.nodup"
+denovo_input_spectrum_file = "../smbp_data/spectrum_smbp.mgf"
+denovo_input_feature_file = "../smbp_data/features_smbp.csv.test"
 
 denovo_output_file = denovo_input_feature_file + ".deepnovo_denovo"
 
