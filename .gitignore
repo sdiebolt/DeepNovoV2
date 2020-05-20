@@ -6,6 +6,7 @@ __pycache__/*
 build/*
 *.c
 *.so
+train.*/*
 train/*
 *.npy
 *.bak

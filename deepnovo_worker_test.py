@@ -393,36 +393,37 @@ class WorkerTest(object):
 
   def _parse_sequence(self, raw_sequence):
     """"""
+    return re.findall(r'[A-Z](?:\(.+?\))?', raw_sequence)
 
     #~ print("".join(["="] * 80)) # section-separating line
     #~ print("WorkerTest._parse_sequence()")
 
-    raw_sequence_len = len(raw_sequence)
-    peptide = []
-    index = 0
-    while index < raw_sequence_len:
-      if raw_sequence[index] == "(":
-        if peptide[-1] == "C" and raw_sequence[index:index+8] == "(+57.02)":
-          peptide[-1] = "C(Carbamidomethylation)"
-          index += 8
-        elif peptide[-1] == 'M' and raw_sequence[index:index+8] == "(+15.99)":
-          peptide[-1] = 'M(Oxidation)'
-          index += 8
-        elif peptide[-1] == 'N' and raw_sequence[index:index+6] == "(+.98)":
-          peptide[-1] = 'N(Deamidation)'
-          index += 6
-        elif peptide[-1] == 'Q' and raw_sequence[index:index+6] == "(+.98)":
-          peptide[-1] = 'Q(Deamidation)'
-          index += 6
-        else: # unknown modification
-          print("ERROR: unknown modification!")
-          print("raw_sequence = ", raw_sequence)
-          sys.exit()
-      else:
-        peptide.append(raw_sequence[index])
-        index += 1
+    #raw_sequence_len = len(raw_sequence)
+    #peptide = []
+    #index = 0
+    #while index < raw_sequence_len:
+    #  if raw_sequence[index] == "(":
+    #    if peptide[-1] == "C" and raw_sequence[index:index+8] == "(+57.02)":
+    #      peptide[-1] = "C(Carbamidomethylation)"
+    #      index += 8
+    #    elif peptide[-1] == 'M' and raw_sequence[index:index+8] == "(+15.99)":
+    #      peptide[-1] = 'M(Oxidation)'
+    #      index += 8
+    #    elif peptide[-1] == 'N' and raw_sequence[index:index+6] == "(+.98)":
+    #      peptide[-1] = 'N(Deamidation)'
+    #      index += 6
+    #    elif peptide[-1] == 'Q' and raw_sequence[index:index+6] == "(+.98)":
+    #      peptide[-1] = 'Q(Deamidation)'
+    #      index += 6
+    #    else: # unknown modification
+    #      print("ERROR: unknown modification!")
+    #      print("raw_sequence = ", raw_sequence)
+    #      sys.exit()
+    #  else:
+    #    peptide.append(raw_sequence[index])
+    #    index += 1
 
-    return peptide
+    #return peptide
 
 
   def _match_AA_novor(self, target, predicted):
